@@ -1,0 +1,17 @@
+inputs:
+  workflowPath:
+    description: Path to CWL workflow to execute
+    required: true
+  jobFilePath:
+     description: Path to Job File
+     required: true
+
+runs:
+  using: "composite"
+  steps:
+   - name: Install CWL Runner
+     run: sudo apt-get update && sudo apt-get install cwltool -y
+     shell: bash
+   - name: Execute CWL
+     shell: bash
+     run: cwl-runner --no-read-only  --force-docker-pull ${{inputs.workflowPath}} ${{inputs.jobFilePath}}
